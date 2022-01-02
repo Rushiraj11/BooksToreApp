@@ -14,6 +14,7 @@
 	border-radius: 21px;
 	display: flex;
 	justify-content: space-between;
+	
 }
 
 .Image-Container {
@@ -23,8 +24,11 @@
 	align-items: center;
 	width: 50%;
 	height: 100%;
+	border-radius: 50%;
 }
-
+.Image{
+	border-radius: 50%;
+}
 .mainText {
 	font-weight: 600;
 	margin-top: 20px;
@@ -33,7 +37,7 @@
 
 .Container2{
 	background-color: #ffffff;
-	width: 400px;
+	width: 500px;
 	height: 420px;
 	position: relative;
 	top: -15px;
@@ -42,26 +46,32 @@
 	border: 1px solid #e4e4e4;
 	border-radius: 5px;
 	display: flex;
+	flex-direction: row;
 	justify-content: center;
 	align-items: center;
 }
 
 .Container3 {
-	width: 220px;
-	height: 350px;
+	width: 250px;
+	height: 400px;
     display: flex;
 	justify-content: space-between;
-	flex-wrap: wrap;
+	flex-direction:column;
 }
 
-.login-Text{
+.Textbox{
 	font-size: 20px;
 	font-weight: bold;
 	cursor: pointer;
 }
 
-.signup-Text {
+.login-signup-text {
 	font-size: 20px;
 	font-weight: bold;
 	cursor: pointer;
+	padding-right: 85px;
+}
+.LoginSignup-container {
+	height: 100%;
+	width: 100%;
 }

@@ -1,12 +1,11 @@
-.Container {
+.SContainer {
     display: flex;
     flex-direction: column;
-    border-radius: 8px;
-    border: 2px solid #dadce0;
-    width: 350px;
-    height: 500px;
+   
+    width: 250px;
+    height: 300px;
     margin:5% auto;
-    padding: 38px 40px;
+    padding: 15px 5px;
     font-family:Roboto;
 	justify-content: space-around;
 	align-items: center;
@@ -17,7 +16,7 @@
 	width: 95%;
 }
 
-.signUpBtn{
+.signUp-Button{
 	background: #A03037 0% 0% no-repeat padding-box;
 	border-radius: 3px;
 	width: 100%;
