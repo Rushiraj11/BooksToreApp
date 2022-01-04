@@ -1,7 +1,7 @@
 import AxiosService from "./AxioService";
 const headerConfig = {
     headers: { 
-        Authorization: localStorage.getItem("token")
+        "x-access-token": localStorage.getItem("token")
      }
 }
 
@@ -18,6 +18,10 @@ class UserService {
     GetBooks(url) {
         console.log(headerConfig)
         return axiosService.Get(url, headerConfig);
+    }
+    AddToCart(url) {
+        console.log(headerConfig)
+        return axiosService.Post(url,{},headerConfig);
     }
     
 

@@ -8,7 +8,8 @@ const userService = new UserService();
 
 export default function Bookcard() {
   const [books, setBooks] = React.useState([]);
-  const[select,setSelect] =React.useState();
+  const[select,setSelect] =React.useState(false);
+  const[currentBook , setCurrentBook] = React.useState({});
 
   
   console.log("books",books);
@@ -27,19 +28,21 @@ export default function Bookcard() {
     getAllBooks();
   }, []);
 
-const changeHandle=(event,id)=>{
-  console.log("book");
-  setSelect(event.target.value);
   
-
+// to open selected book
+const changeview =(book)=>{
+  setCurrentBook({...currentBook,book})
+  setSelect(!select) 
+  
 }
 
   return (
     <div>
       <div className="BookCardContainer" >
-      {books.map((book,index) => (
-        <div key={index} className="Books-Container" value={select} onClick={changeHandle}>
-          <div className="Image-Container1">
+     {select ? <Book book={currentBook}/>  : 
+      books.map((book,index) => (
+        <div key={index} className="Books-Container" value={select}  >
+          <div className="Image-Container1"onClick={()=>changeview(book)}>
             <div className="Image-Card"></div>
           </div>
           <div className="Book-TextContent">
