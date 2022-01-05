@@ -1,12 +1,9 @@
 import React from "react";
 import Bookcard from "../../Components/BookCards/Bookcard";
 import Header from "../../Components/Header/Header";
-import './HomePage.css'
-
-
+import "./HomePage.css";
 
 function HomePage() {
-
   return (
     <div>
       <Header />
@@ -19,7 +16,6 @@ function HomePage() {
           </div>
         </div>
         <Bookcard />
-       
       </div>
     </div>
   );

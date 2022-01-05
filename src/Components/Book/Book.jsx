@@ -8,28 +8,49 @@ const userService = new UserService();
 
 function Book(props) {
 const[addBook,setAddBook] = React.useState(false)
+const [quantity, setQuantity] = React.useState(0);
+const [cartItemId, setCartItemId] = React.useState("");
 
 console.log(props.book.book);
   const OpenHomePage = () => {
     props.openBook(false)
 }
+
+const showCartItems = () => {
+  userService.GetCartItems("https://bookstore.incubation.bridgelabz.com/bookstore_user/get_cart_items")
+    .then((res) => {
+      console.log(res);
+      let filterArray = res.data.result.filter(function (cart) {
+        if (props.book.book._id === cart.product_id._id) {
+          setQuantity(cart.quantity);
+          setCartItemId(cart._id);
+          console.log(cart.product_id._id);
+          return cart;
+        }
+      });
+      setAddBook(filterArray);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
   
 
 
 const bookId = (_id) =>{
-
-  userService.AddToCart(`https://bookstore.incubation.bridgelabz.com/bookstore_user/add_cart_item/${_id}`)
+  userService.AddToCart(`https://bookstore.incubation.bridgelabz.com/bookstore_user/add_cart_item/${_id}`,props.book.book._id)
   .then((response) => {
     console.log(response);
-    
-    
   })
   .catch((error) => {
     console.error(error);
   });
-
-
 }
+
+
+React.useEffect(() => {
+  // showCartItems();
+}, [quantity]);
 
     return (
         <div>
@@ -47,6 +68,7 @@ const bookId = (_id) =>{
               <div className="bookImg"></div>
             </div>
             <div className="Button-Addto">
+            {addBook.length !== 0 ? (
                 <Button
                  style={{
                     backgroundColor: "#A03037",
@@ -58,6 +80,52 @@ const bookId = (_id) =>{
                 >
                   ADD TO BAG
                 </Button>
+                 ) : (
+                  <div direction="row" spacing={1}>
+                  <button
+                    className="minus-icon"
+                    id={props.book.book._id}
+                    
+                    style={{
+                      width: "30px",
+                      height: "25px",
+                      background: "#FAFAFA 0% 0% no-repeat padding-box",
+                      border: "2px solid #DBDBDB",
+                      opacity: "1",
+                      marginTop: "5px",
+                    }}
+                  >
+                    -
+                  </button>
+                  <button
+                    sx={{
+                      width: 40,
+                      height: 30,
+                      color: "black",
+                      fontSize: "15px",
+                      background: "#FAFAFA 0% 0% no-repeat padding-box",
+                      border: "1px solid #DBDBDB",
+                    }}
+                    variant="square"
+                  >
+                    {quantity}
+                  </button>
+                  <button
+                    id={props.book.book._id}
+                    className="plus-icon"
+                    id="plus"
+                    style={{
+                      width: "30px",
+                      height: "25px",
+                      background: "#FAFAFA 0% 0% no-repeat padding-box",
+                      border: "1px solid #DBDBDB",
+                      opacity: "1",
+                      marginTop: "3px",
+                    }}
+                  >
+                    +
+                  </button>
+                </div>)}
               <div>
                 <Button style={{
                     backgroundColor: "black",
@@ -73,7 +141,7 @@ const bookId = (_id) =>{
         
           <div className="bookDetailsContainer">
             <div className="bookNameText">
-              <h2 >{props.book.book.bookName}book</h2>
+              <h2 >{props.book.book.bookName}</h2>
             </div>
             <div style={{ color: "gray" ,paddingRight:"450px" }}>{props.book.book.author}</div>
             <div>

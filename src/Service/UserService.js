@@ -23,6 +23,10 @@ class UserService {
         console.log(headerConfig)
         return axiosService.Post(url,{},headerConfig);
     }
+    GetCartItems(url) {
+        console.log(headerConfig)
+        return axiosService.Get(url, headerConfig);
+    }
     
 
 }
