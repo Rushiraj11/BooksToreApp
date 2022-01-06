@@ -8,43 +8,145 @@ import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
 import Header from "../Header/Header";
 import "./CartItem.css";
+import Book from "../Book/Book";
+import UserService from "../../Service/UserService";
 
-function CartItem(props) {
+const userService = new UserService();
+
+function CartItem() {
   const [cartItems, setCartItems] = React.useState([]);
+ 
+
+  React.useEffect(() => {
+    getAllCartItems();
+  }, []);
+
+  const getAllCartItems = () => {
+    userService
+      .GetCartItems(
+        "https://bookstore.incubation.bridgelabz.com/bookstore_user/get_cart_items"
+      )
+      .then((response) => {
+        console.log("getCartItems", response.data.result);
+        setCartItems(response.data.result);
+      })
+      .catch((err) => {
+        console.warn(err);
+      });
+  };
+
+  const decrementCartItem = (cartId) => {
+    console.log("decrimented items", cartId);
+    let newCart = cartItems.map((item, index) => {
+      if (item._id === cartId) {
+        upadateQuantity(cartId, item.quantityToBuy - 1);
+        return {
+          ...item,
+          quantityToBuy: item.quantityToBuy - 1,
+        };
+      } else {
+        return item;
+      }
+    });
+    setCartItems(newCart);
+  };
+
+  const upadateQuantity = (cartItemId, quantity1) => {
+    let obj = { quantityToBuy: quantity1 };
+    userService
+      .CartItemQuantity(
+        `https://bookstore.incubation.bridgelabz.com/bookstore_user/cart_item_quantity/${cartItemId}`,
+        obj
+      )
+      .then((response) => {
+        console.log("quantity", response.data.message);
+      })
+      .catch((err) => {
+        console.warn(err);
+      });
+  };
+
+  const incrementCartItem = (cartId) => {
+    let newCart = cartItems.map((cartitem) => {
+      if (cartitem._id === cartId) {
+        upadateQuantity(cartId, cartitem.quantityToBuy + 1);
+        return {
+          ...cartitem,
+          quantityToBuy: cartitem.quantityToBuy + 1,
+        };
+      } else {
+        return cartitem;
+      }
+    });
+    setCartItems(newCart);
+  };
+  console.log("cartItems", cartItems);
+
+  const deleteCartItems = (cartItemId) => {
+    userService
+      .RemoveCartItems(
+        `https://bookstore.incubation.bridgelabz.com/bookstore_user/remove_cart_item/${cartItemId}`
+      )
+      .then((response) => {
+        console.log(response.data.message);
+        getAllCartItems();
+      })
+      .catch((err) => {
+        console.warn(err);
+      });
+  };
+
 
   return (
     <div>
       <Header />
-      <h3 style={{ marginRight:"75vw" }}>
+      <h3 style={{ marginLeft: "8%" }}>
         <span style={{ color: "gray" }}> Home/ </span> My cart
       </h3>
 
       <div className="myCartContainer">
         <div className="textAndLocationContain">
           <h3>My cart(1)</h3>
+          <select className="selectLocationFeild">
+            <option value="location">Use current location</option>
+          </select>
         </div>
-        {cartItems.map((cart, index) => (
+        {cartItems.map((product, index) => (
           <div className="bookImgAddDetails" key={index}>
             <div className="bookImgDiv"></div>
             <div className="bookDetailsDiv text">
-              <b>{cart.product_id.bookName}</b>
-              <p>{cart.product_id.author}</p>
-              <span style={{ width: "50px" }}>
-                <b> {cart.product_id.price}</b>
+              <b>{product.product_id.bookName}</b>
+              <p>by {product.product_id.author}</p>
+             <div> <span style={{ width: "90px" }}>
+                <b>Rs {product.product_id.price}</b>
               </span>
-              <del style={{ color: "gray" }}> Rs 2000</del>
+              <del style={{ color: "gray" }}> Rs 2000</del></div>
               <div className="addRemoveCartItems">
-                <button className="sub">-</button>
-                <button className="value" id={cart._id}>
-                  {cart.quantityToBuy}
+                <button
+                  className="sub"
+                  onClick={() => decrementCartItem(product._id)}
+                >
+                  -
                 </button>
-                <button className="add">+</button>
-                <Button className="remove">Remove</Button>
+                <button className="value" id={product._id}>
+                  {product.quantityToBuy}
+                </button>
+                <button
+                  className="add"
+                  onClick={() => incrementCartItem(product._id)}
+                >
+                  +
+                </button>
+                <button
+                  className="remove"
+                  onClick={() => deleteCartItems(product._id)}
+                >
+                  Remove
+                </button>
               </div>
             </div>
           </div>
         ))}
-
         <div className="placeOrderBtn">
           <Button
             variant="contained"
@@ -58,25 +160,15 @@ function CartItem(props) {
       <div className="addressOrderDetailContainer">
         <div className="txt">Address Details</div>
       </div>
-
       <div className="addressOrderDetailContainer">
         <h4 className="txt">Order Summery</h4>
-
         <div className="orderSummeryContainer">
           <p className="txt-order">Order Summery</p>
-          {cartItems.map((cart, index) => (
-            <div className="bookImgAddDetails" key={index}>
-              <div className="bookImgDiv"></div>
-              <div className="bookDetailsDiv text">
-                <b>{cart.product_id.bookName}</b>
-                <p>{cart.product_id.author}</p>
-                <span style={{ width: "50px" }}>
-                  <b> {cart.product_id.price}</b>
-                </span>
-                <del style={{ color: "gray" }}> Rs 2000</del>
-              </div>
-            </div>
-          ))}
+          <div className="checkout-btn">
+            <Button variant="contained" color="primary">
+              Checkout
+            </Button>
+          </div>
         </div>
       </div>
     </div>

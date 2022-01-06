@@ -16,10 +16,10 @@ function App() {
      {/* <Signup/> */}
      {/* <MainPage/> */}
      {/* <Header/> */}
-     <HomePage/>
+     {/* <HomePage/> */}
      {/* <Book/> */}
      {/* <Bookcard/> */}
-     {/* <CartItem/> */}
+     <CartItem/>
     </div>
   );
 }

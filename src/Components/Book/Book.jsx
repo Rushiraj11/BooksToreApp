@@ -183,22 +183,23 @@ React.useEffect(() => {
             <div className="bookNameText">
               <h2 >{props.book.book.bookName}</h2>
             </div>
-            <div style={{ color: "gray" ,paddingRight:"450px" }}>{props.book.book.author}</div>
+            <div style={{ color: "gray" ,paddingRight:"450px", fontSize:"20px",paddingBottom:"15px" }}>by {props.book.book.author}</div>
             <div>
               <span
                 style={{
                   backgroundColor: "green",
                   width: "60px",
                   color: "white",
+                  
                 }}
               >
                 4.5*
               </span>
-              <span style={{ color: "gray" }}>(30)</span>
+              <span style={{ color: "gray",paddingRight:"15px" }}>(30)</span>
             </div>
             <div>
               <span style={{ width: "50px" }}>
-                <b>{props.book.book.price}</b>
+                <b>Rs {props.book.book.price}</b>
               </span>
               <del style={{ color: "gray" }}> Rs 1700</del>
             </div>

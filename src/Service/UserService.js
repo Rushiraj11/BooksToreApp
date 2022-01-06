@@ -30,7 +30,9 @@ class UserService {
     CartItemQuantity(url,data){
         return axiosService.Put(url,data, headerConfig);
     }
-
+    RemoveCartItems(url){
+        return axiosService.Delete(url, headerConfig);
+    }
 }
 
 export default UserService;
