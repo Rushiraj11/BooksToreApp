@@ -4,16 +4,33 @@ import { Button } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import './Book.css';
 import UserService from "../../Service/UserService";
+import Bookcard from '../BookCards/Bookcard';
+
+
 const userService = new UserService();
 
 function Book(props) {
-const[addBook,setAddBook] = React.useState(false)
+const[addBook,setAddBook] = React.useState([])
 const [quantity, setQuantity] = React.useState(0);
 const [cartItemId, setCartItemId] = React.useState("");
 
+
 console.log(props.book.book);
   const OpenHomePage = () => {
-    props.openBook(false)
+    // props.openBook(true)
+    
+}
+
+const bookId = (id) =>{
+  console.log(id);
+  userService.AddToCart(`https://bookstore.incubation.bridgelabz.com/bookstore_user/add_cart_item/${id}`)
+  .then((response) => {
+   showCartItems()
+    console.log(response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
 }
 
 const showCartItems = () => {
@@ -22,40 +39,62 @@ const showCartItems = () => {
       console.log(res);
       let filterArray = res.data.result.filter(function (cart) {
         if (props.book.book._id === cart.product_id._id) {
-          setQuantity(cart.quantity);
+          setQuantity(cart.quantityToBuy);
           setCartItemId(cart._id);
           console.log(cart.product_id._id);
           return cart;
         }
       });
+      console.log(filterArray);
       setAddBook(filterArray);
+
     })
     .catch((error) => {
       console.log(error);
     });
 };
+
+const handleIncrement = () => {
+  
+  let data = {
+    "quantityToBuy": quantity + 1,
+  };
+  userService.CartItemQuantity(`https://bookstore.incubation.bridgelabz.com/bookstore_user/cart_item_quantity/${cartItemId}`, data)
+    .then((response) => {
+      console.log(response);
+     showCartItems();
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
+
+const handleDecrement = () => {
+  
+  let data = {
+    quantityToBuy: quantity - 1,
+  };
+  userService.CartItemQuantity(`https://bookstore.incubation.bridgelabz.com/bookstore_user/cart_item_quantity/${cartItemId}`,data)
+    .then((response) => {
+      console.log(response);
+      showCartItems();
+
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
   
 
 
-const bookId = (_id) =>{
-  userService.AddToCart(`https://bookstore.incubation.bridgelabz.com/bookstore_user/add_cart_item/${_id}`,props.book.book._id)
-  .then((response) => {
-    console.log(response);
-  })
-  .catch((error) => {
-    console.error(error);
-  });
-}
-
-
 React.useEffect(() => {
-  // showCartItems();
+  showCartItems();
 }, [quantity]);
 
     return (
         <div>
       <h5 style={{ paddingRight:"1160px" }} >
-        <span style={{ color: "gray" }} onClick={OpenHomePage}> Home/ </span> (Book 01)
+        <span style={{ color: "gray" }} onClick={OpenHomePage}> Home </span>
       </h5>
       <div className="Book-Container">
         <div className="leftside-BookIcon">
@@ -68,14 +107,14 @@ React.useEffect(() => {
               <div className="bookImg"></div>
             </div>
             <div className="Button-Addto">
-            {addBook.length !== 0 ? (
+            {addBook.length === 0 ? (
                 <Button
                  style={{
                     backgroundColor: "#A03037",
                     width: "100px",
                     height: "40px",
                   }}
-                  onClick={bookId}
+                  onClick={()=>bookId(props.book.book._id)}
                   variant="contained"
                 >
                   ADD TO BAG
@@ -85,7 +124,7 @@ React.useEffect(() => {
                   <button
                     className="minus-icon"
                     id={props.book.book._id}
-                    
+                    onClick={handleDecrement}
                     style={{
                       width: "30px",
                       height: "25px",
@@ -112,6 +151,7 @@ React.useEffect(() => {
                   </button>
                   <button
                     id={props.book.book._id}
+                    onClick={handleIncrement}
                     className="plus-icon"
                     id="plus"
                     style={{

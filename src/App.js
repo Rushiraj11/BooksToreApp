@@ -1,6 +1,7 @@
 import './App.css';
 import Book from './Components/Book/Book';
 import Bookcard from './Components/BookCards/Bookcard';
+import CartItem from './Components/Cart/CartItem';
 import Header from './Components/Header/Header';
 import HomePage from './MainPage/HomePage/HomePage';
 import Login from './MainPage/Login/Login';
@@ -18,6 +19,7 @@ function App() {
      <HomePage/>
      {/* <Book/> */}
      {/* <Bookcard/> */}
+     {/* <CartItem/> */}
     </div>
   );
 }

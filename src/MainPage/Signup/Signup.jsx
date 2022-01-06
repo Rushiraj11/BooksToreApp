@@ -6,10 +6,10 @@ const userService = new UserService();
 
 function Signup() {
   const [signUp, setSignUp] = React.useState({
-    fullName: " ",
-    email: " ",
-    password: " ",
-    phone: " ",
+    fullName: "",
+    email: "",
+    password: "",
+    phone: "",
   });
 
   const changeHandle = (e) => {

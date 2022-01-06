@@ -7,6 +7,9 @@ class AxiosService {
     Get(url,headers=false){
         return axios.get(url,headers)
     }
+    Put(url,data,headers=false){
+        return axios.put(url, data,headers);
+    }
     
 
 }

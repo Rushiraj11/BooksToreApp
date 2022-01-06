@@ -27,7 +27,9 @@ class UserService {
         console.log(headerConfig)
         return axiosService.Get(url, headerConfig);
     }
-    
+    CartItemQuantity(url,data){
+        return axiosService.Put(url,data, headerConfig);
+    }
 
 }
 

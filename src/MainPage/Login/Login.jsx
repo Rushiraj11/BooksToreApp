@@ -6,8 +6,8 @@ const userService = new UserService();
 
 function Login() {
   const [login, setLogin] = React.useState({
-    email: " ",
-    password: " ",
+    email: "",
+    password: "",
   });
  
   const changeHandle = (e) => {
