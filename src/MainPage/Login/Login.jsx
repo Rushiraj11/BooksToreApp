@@ -1,15 +1,16 @@
 import React from "react";
 import UserService from "../../Service/UserService";
 import "./Login.css";
+import { useHistory } from "react-router-dom";
 const userService = new UserService();
-
 
 function Login() {
   const [login, setLogin] = React.useState({
     email: "",
     password: "",
   });
- 
+
+  const history = useHistory();
   const changeHandle = (e) => {
     setLogin({
       ...login,
@@ -17,17 +18,21 @@ function Login() {
     });
   };
 
-  const onLogin =()=>{
-    userService.Login("https://bookstore.incubation.bridgelabz.com/bookstore_user/login",login)
-    .then((res) => {
-      localStorage.setItem("token", res.data.result.accessToken);
-      console.log("login response", res.data);
-    
-    })
-    .catch((err) => {
-      console.warn(err);
-    });
-  }
+  const onLogin = () => {
+    userService
+      .Login(
+        "https://bookstore.incubation.bridgelabz.com/bookstore_user/login",
+        login
+      )
+      .then((res) => {
+        localStorage.setItem("token", res.data.result.accessToken);
+        console.log("login response", res.data);
+        history.push("/HomePage");
+      })
+      .catch((err) => {
+        console.warn(err);
+      });
+  };
 
   return (
     <div className="Container">
@@ -37,7 +42,7 @@ function Login() {
         placeholder="Email"
         name="email"
         value={login.email}
-        onChange={(e) =>changeHandle(e)}
+        onChange={(e) => changeHandle(e)}
       />
       <input
         className="input"

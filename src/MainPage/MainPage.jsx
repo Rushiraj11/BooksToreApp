@@ -6,8 +6,10 @@ import Image1 from "../Assets/Image1.png"
 
 
 
+
 function MainPage() {
 const[update,setUpdate]=React.useState(true)
+ 
 
 const handleOnClick = () => {
   setUpdate(!update);

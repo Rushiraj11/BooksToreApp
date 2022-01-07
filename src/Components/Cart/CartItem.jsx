@@ -8,7 +8,6 @@ import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
 import Header from "../Header/Header";
 import "./CartItem.css";
-import Book from "../Book/Book";
 import UserService from "../../Service/UserService";
 
 const userService = new UserService();
@@ -17,9 +16,7 @@ function CartItem() {
   const [cartItems, setCartItems] = React.useState([]);
  
 
-  React.useEffect(() => {
-    getAllCartItems();
-  }, []);
+ 
 
   const getAllCartItems = () => {
     userService
@@ -37,29 +34,26 @@ function CartItem() {
 
   const decrementCartItem = (cartId) => {
     console.log("decrimented items", cartId);
-    let newCart = cartItems.map((item, index) => {
+     cartItems.map((item) => {
       if (item._id === cartId) {
         upadateQuantity(cartId, item.quantityToBuy - 1);
-        return {
-          ...item,
-          quantityToBuy: item.quantityToBuy - 1,
-        };
+        
       } else {
         return item;
       }
     });
-    setCartItems(newCart);
+    
+
   };
 
   const upadateQuantity = (cartItemId, quantity1) => {
     let obj = { quantityToBuy: quantity1 };
     userService
       .CartItemQuantity(
-        `https://bookstore.incubation.bridgelabz.com/bookstore_user/cart_item_quantity/${cartItemId}`,
-        obj
-      )
+        `https://bookstore.incubation.bridgelabz.com/bookstore_user/cart_item_quantity/${cartItemId}`, obj)
       .then((response) => {
         console.log("quantity", response.data.message);
+        getAllCartItems();
       })
       .catch((err) => {
         console.warn(err);
@@ -67,18 +61,13 @@ function CartItem() {
   };
 
   const incrementCartItem = (cartId) => {
-    let newCart = cartItems.map((cartitem) => {
+     cartItems.map((cartitem) => {
       if (cartitem._id === cartId) {
         upadateQuantity(cartId, cartitem.quantityToBuy + 1);
-        return {
-          ...cartitem,
-          quantityToBuy: cartitem.quantityToBuy + 1,
-        };
       } else {
         return cartitem;
       }
     });
-    setCartItems(newCart);
   };
   console.log("cartItems", cartItems);
 
@@ -96,6 +85,9 @@ function CartItem() {
       });
   };
 
+  React.useEffect(() => {
+    getAllCartItems();
+  }, []);
 
   return (
     <div>
@@ -114,7 +106,7 @@ function CartItem() {
         {cartItems.map((product, index) => (
           <div className="bookImgAddDetails" key={index}>
             <div className="bookImgDiv"></div>
-            <div className="bookDetailsDiv text">
+            <div className="bookDetailsDiv-text">
               <b>{product.product_id.bookName}</b>
               <p>by {product.product_id.author}</p>
              <div> <span style={{ width: "90px" }}>
