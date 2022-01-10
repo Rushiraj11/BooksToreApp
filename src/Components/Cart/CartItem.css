@@ -10,10 +10,26 @@
   
 }
 
-.addressOrderDetailContainer {
+.addressOrderDetailContainer1 {
   display: flex;
   width: 774px;
-  height: 80px;
+  height: 100%;
+  min-height: 80px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border: 1px solid #612c2c;
+  border-radius: 1px;
+  opacity: 1;
+  margin-top: 1%;
+  margin-left: 8%;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.OrderDetailContainer2 {
+  display: flex;
+  width: 774px;
+  height: 100%;
+  min-height: 80px;
   background: #ffffff 0% 0% no-repeat padding-box;
   border: 1px solid #612c2c;
   border-radius: 1px;
@@ -33,7 +49,7 @@
   border: none;
   font-size: medium;
 }
-.txt {
+.addressOrderDetailContainer1 >.txt {
   margin-left: 2%;
   color: #707070;
 }

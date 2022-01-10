@@ -1,0 +1,74 @@
+.validation-box {
+    width: 100%;
+    margin-top: 16px;
+    height: 425px;
+  }
+  
+  .customer-details-title {
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 40px;
+    font-weight: 600;
+    height: 60px;
+  }
+  .addnewaddress {
+    width: 150px;
+    height: 35px;
+    color: #a03037;
+    font-weight: normal;
+    border: 1.5px solid #a03037;
+    border-radius: 2px;
+    font-weight: 600;
+    font-size: 12px;
+  }
+  
+  .inputfields-container {
+    width: 70%;
+    margin-left: 45px;
+    height: 307px;
+  }
+  
+  .row-1-field,
+  .row-2-field,
+  .row-3-field,
+  .row-4-field {
+    width: 100%;
+    height: 62px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+   
+  }
+  
+  .fullname-1r,
+  .mobilenum-1r,
+  .city-3r,
+  .state-3r {
+    width: 245px;
+    margin: 10px;
+  }
+  .Address-2r {
+    width: 100%;
+    border: 1px solid #70707063;
+  }
+  
+  .continue-button-container {
+    width: 95%;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .continue-button {
+    width: 150px;
+    height: 35px;
+    background-color: #3371b5;
+    color: white;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+  }

@@ -9,12 +9,14 @@ import Avatar from "@mui/material/Avatar";
 import Header from "../Header/Header";
 import "./CartItem.css";
 import UserService from "../../Service/UserService";
+import CustomerDetails from "../../MainPage/CustomerDetails/CustomerDetails";
 
 const userService = new UserService();
 
 function CartItem() {
   const [cartItems, setCartItems] = React.useState([]);
- 
+  const [openAddress, setOpenAddress] = React.useState(false);
+  const [openOrderSummery, setOpenOrderSummery] = React.useState(false);
 
  
 
@@ -84,6 +86,15 @@ function CartItem() {
         console.warn(err);
       });
   };
+  
+  const orderPlaced = () => {
+    setOpenAddress(!openAddress);
+  };
+
+  const continueOrder = () => {
+    setOpenOrderSummery(!openOrderSummery);
+  };
+
 
   React.useEffect(() => {
     getAllCartItems();
@@ -139,29 +150,56 @@ function CartItem() {
             </div>
           </div>
         ))}
+        {cartItems.length >= 1 ? (
         <div className="placeOrderBtn">
           <Button
             variant="contained"
             color="primary"
             style={{ float: "right" }}
+            onClick={orderPlaced}
           >
             Place order
           </Button>
         </div>
+        ) : null}
       </div>
-      <div className="addressOrderDetailContainer">
+      <div className="addressOrderDetailContainer1">
+      {!openAddress ? (
         <div className="txt">Address Details</div>
-      </div>
-      <div className="addressOrderDetailContainer">
+        ) : (
+          <CustomerDetails continueOrder={continueOrder}/>
+        )}
+        </div>
+
+      <div className="OrderDetailContainer2">
+        {!openOrderSummery ? (
         <h4 className="txt">Order Summery</h4>
-        <div className="orderSummeryContainer">
-          <p className="txt-order">Order Summery</p>
+        ) : (
+          <div className="orderSummeryContainer">
+          <p className="txt">Order Summery</p>
+          {cartItems.map((product, index) => (
+            <div className="bookImgAddDetails" key={index}>
+              <div className="bookImgDiv"></div>
+              <div className="bookDetailsDiv-text">
+                <b>{product.product_id.bookName}</b>
+                <p>by {product.product_id.author}</p>
+                <span style={{ width: "50px" }}>
+                  <b>Rs {product.product_id.price}</b>
+                </span>
+                <del style={{ color: "gray" }}> Rs 2000</del>
+              </div>
+            </div>
+          ))}
           <div className="checkout-btn">
-            <Button variant="contained" color="primary">
+            <Button
+              variant="contained"
+              color="primary"
+            >
               Checkout
             </Button>
           </div>
         </div>
+        )}
       </div>
     </div>
   );
