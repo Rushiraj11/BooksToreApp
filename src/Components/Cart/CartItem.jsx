@@ -10,15 +10,14 @@ import Header from "../Header/Header";
 import "./CartItem.css";
 import UserService from "../../Service/UserService";
 import CustomerDetails from "../../MainPage/CustomerDetails/CustomerDetails";
-
+import { useHistory } from "react-router-dom";
 const userService = new UserService();
 
 function CartItem() {
   const [cartItems, setCartItems] = React.useState([]);
   const [openAddress, setOpenAddress] = React.useState(false);
   const [openOrderSummery, setOpenOrderSummery] = React.useState(false);
-
- 
+  const history = useHistory();
 
   const getAllCartItems = () => {
     userService
@@ -36,23 +35,22 @@ function CartItem() {
 
   const decrementCartItem = (cartId) => {
     console.log("decrimented items", cartId);
-     cartItems.map((item) => {
+    cartItems.map((item) => {
       if (item._id === cartId) {
         upadateQuantity(cartId, item.quantityToBuy - 1);
-        
       } else {
         return item;
       }
     });
-    
-
   };
 
   const upadateQuantity = (cartItemId, quantity1) => {
     let obj = { quantityToBuy: quantity1 };
     userService
       .CartItemQuantity(
-        `https://bookstore.incubation.bridgelabz.com/bookstore_user/cart_item_quantity/${cartItemId}`, obj)
+        `https://bookstore.incubation.bridgelabz.com/bookstore_user/cart_item_quantity/${cartItemId}`,
+        obj
+      )
       .then((response) => {
         console.log("quantity", response.data.message);
         getAllCartItems();
@@ -63,7 +61,7 @@ function CartItem() {
   };
 
   const incrementCartItem = (cartId) => {
-     cartItems.map((cartitem) => {
+    cartItems.map((cartitem) => {
       if (cartitem._id === cartId) {
         upadateQuantity(cartId, cartitem.quantityToBuy + 1);
       } else {
@@ -86,7 +84,7 @@ function CartItem() {
         console.warn(err);
       });
   };
-  
+
   const orderPlaced = () => {
     setOpenAddress(!openAddress);
   };
@@ -95,6 +93,33 @@ function CartItem() {
     setOpenOrderSummery(!openOrderSummery);
   };
 
+  const checkoutOrder = () => {
+    let array_ordered_books = [];
+
+    cartItems.map((element) => {
+      let ordered_book = {
+        product_id: element._id,
+        product_name: element.product_id.bookName,
+        product_quantity: element.quantityToBuy,
+        product_price: element.product_id.price,
+      };
+      return array_ordered_books.push(ordered_book);
+    });
+
+    let orderObj = {
+      orders: array_ordered_books,
+    };
+    userService
+      .TakeOrder(
+        "https://bookstore.incubation.bridgelabz.com/bookstore_user/add/order",orderObj)
+      .then((response) => {
+        console.log(response.data.message, "order items", response.data.result);
+        history.push("/Homepage/Book/Cart/Orderplaced");
+      })
+      .catch((err) => {
+        console.warn(err);
+      });
+  };
 
   React.useEffect(() => {
     getAllCartItems();
@@ -120,10 +145,13 @@ function CartItem() {
             <div className="bookDetailsDiv-text">
               <b>{product.product_id.bookName}</b>
               <p>by {product.product_id.author}</p>
-             <div> <span style={{ width: "90px" }}>
-                <b>Rs {product.product_id.price}</b>
-              </span>
-              <del style={{ color: "gray" }}> Rs 2000</del></div>
+              <div>
+                {" "}
+                <span style={{ width: "90px" }}>
+                  <b>Rs {product.product_id.price}</b>
+                </span>
+                <del style={{ color: "gray" }}> Rs 2000</del>
+              </div>
               <div className="addRemoveCartItems">
                 <button
                   className="sub"
@@ -151,54 +179,55 @@ function CartItem() {
           </div>
         ))}
         {cartItems.length >= 1 ? (
-        <div className="placeOrderBtn">
-          <Button
-            variant="contained"
-            color="primary"
-            style={{ float: "right" }}
-            onClick={orderPlaced}
-          >
-            Place order
-          </Button>
-        </div>
-        ) : null}
-      </div>
-      <div className="addressOrderDetailContainer1">
-      {!openAddress ? (
-        <div className="txt">Address Details</div>
-        ) : (
-          <CustomerDetails continueOrder={continueOrder}/>
-        )}
-        </div>
-
-      <div className="OrderDetailContainer2">
-        {!openOrderSummery ? (
-        <h4 className="txt">Order Summery</h4>
-        ) : (
-          <div className="orderSummeryContainer">
-          <p className="txt">Order Summery</p>
-          {cartItems.map((product, index) => (
-            <div className="bookImgAddDetails" key={index}>
-              <div className="bookImgDiv"></div>
-              <div className="bookDetailsDiv-text">
-                <b>{product.product_id.bookName}</b>
-                <p>by {product.product_id.author}</p>
-                <span style={{ width: "50px" }}>
-                  <b>Rs {product.product_id.price}</b>
-                </span>
-                <del style={{ color: "gray" }}> Rs 2000</del>
-              </div>
-            </div>
-          ))}
-          <div className="checkout-btn">
+          <div className="placeOrderBtn">
             <Button
               variant="contained"
               color="primary"
+              style={{ float: "right" }}
+              onClick={orderPlaced}
             >
-              Checkout
+              Place order
             </Button>
           </div>
-        </div>
+        ) : null}
+      </div>
+      <div className="addressOrderDetailContainer1">
+        {!openAddress ? (
+          <div className="txt">Address Details</div>
+        ) : (
+          <CustomerDetails continueOrder={continueOrder} />
+        )}
+      </div>
+
+      <div className="OrderDetailContainer2">
+        {!openOrderSummery ? (
+          <h4 className="txt">Order Summery</h4>
+        ) : (
+          <div className="orderSummeryContainer">
+            <p className="txt">Order Summery</p>
+            {cartItems.map((product, index) => (
+              <div className="bookImgAddDetails" key={index}>
+                <div className="bookImgDiv"></div>
+                <div className="bookDetailsDiv-text">
+                  <b>{product.product_id.bookName}</b>
+                  <p>by {product.product_id.author}</p>
+                  <span style={{ width: "50px" }}>
+                    <b>Rs {product.product_id.price}</b>
+                  </span>
+                  <del style={{ color: "gray" }}> Rs 2000</del>
+                </div>
+              </div>
+            ))}
+            <div className="checkout-btn">
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={checkoutOrder}
+              >
+                Checkout
+              </Button>
+            </div>
+          </div>
         )}
       </div>
     </div>

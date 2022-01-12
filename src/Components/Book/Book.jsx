@@ -12,6 +12,7 @@ function Book(props) {
 const[addBook,setAddBook] = React.useState([])
 const [quantity, setQuantity] = React.useState(0);
 const [cartItemId, setCartItemId] = React.useState("");
+const [getWishlistId, setGetWishlistId] =React.useState([]);
 
 
 console.log(props.book.book);
@@ -83,11 +84,40 @@ const handleDecrement = () => {
       console.error(error);
     });
 };
+const addToWishlist = (id) => {
+ userService.AddToWishList(`https://bookstore.incubation.bridgelabz.com/bookstore_user/add_wish_list/${id}`)
+    .then((response) => {
+      console.log(response);
+      displayWishlistItems();
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+const displayWishlistItems = () => {
+  userService.GetWishList("https://bookstore.incubation.bridgelabz.com/bookstore_user/get_wishlist_items")
+    .then((response) => {
+      console.log(response);
+      let filterWishlistArray = response.data.result.filter(function (
+        wishlist
+      ) {
+        if (props.book.book._id === wishlist.product_id._id) {
+          console.log(wishlist.product_id._id);
+          return wishlist;
+        }
+      });
+      setGetWishlistId(filterWishlistArray);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
   
 
 
 React.useEffect(() => {
   showCartItems();
+  displayWishlistItems();
 }, [quantity]);
 
     return (
@@ -166,14 +196,35 @@ React.useEffect(() => {
                   </button>
                 </div>)}
               <div>
-                <Button style={{
-                    backgroundColor: "black",
-                    width: "100px",
+              {getWishlistId.length !== 0 ? (
+                <Button
+                  fullWidth
+                  style={{
+                    color: "black",
+                    borderColor: "#878787",
+                    marginBottom: "30px",
+                    width: "150px",
                     height: "40px",
                   }}
-                  variant="contained">
-                  WISHLIST
+                  variant="outlined"
+                >
+                  Added To Wishlist
                 </Button>
+              ) : (
+                <Button
+                  fullWidth
+                  style={{
+                    backgroundColor: "#333333",
+                    marginBottom: "30px",
+                    width: "150px",
+                    height: "40px",
+                  }}
+                  variant="contained"
+                  onClick={addToWishlist}
+                >
+                  Wishlist
+                </Button>
+              )}
               </div>
             </div>
           </div>

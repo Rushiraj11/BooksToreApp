@@ -44,9 +44,8 @@ function Orderplaced() {
             </div>
           </div>
         </div>
-        
+        <button style={{marginBottom:25}}>Continue Shopping</button>
       </div>
-      <button>Continue Shopping</button>
     </div>
     )
 }

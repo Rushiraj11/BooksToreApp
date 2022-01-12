@@ -10,9 +10,6 @@ function HomePage() {
       <div className="HomePage-container">
         <div className="bookHeaderContainer">
           <div className="bookHeadTitle">
-            {/* <h3>
-              Books<span style={{ color: "gray" }}>(128 items)</span>
-            </h3> */}
           </div>
         </div>
         <Bookcard />

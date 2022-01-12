@@ -36,6 +36,20 @@ class UserService {
     UpdateCustomerDetails(url,data){
         return axiosService.Put(url,data, headerConfig);
     }
+    TakeOrder(url, data) {
+        return axiosService.Post(url, data,headerConfig);
+    }
+    AddToWishList(url) {
+        console.log(headerConfig)
+        return axiosService.Post(url,{},headerConfig);
+    }
+    GetWishList(url) {
+        console.log(headerConfig)
+        return axiosService.Get(url, headerConfig);
+    }
+    RemoveWishList(url){
+        return axiosService.Delete(url, headerConfig);
+    }
 }
 
 export default UserService;
