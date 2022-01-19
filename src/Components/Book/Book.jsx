@@ -4,6 +4,8 @@ import Typography from "@mui/material/Typography";
 import './Book.css';
 import UserService from "../../Service/UserService";
 import { useHistory } from "react-router-dom";
+import { connect } from 'react-redux';
+
 
 
 const userService = new UserService();
@@ -84,7 +86,9 @@ const handleDecrement = () => {
       console.error(error);
     });
 };
+
 const addToWishlist = (id) => {
+  console.log(id);
  userService.AddToWishList(`https://bookstore.incubation.bridgelabz.com/bookstore_user/add_wish_list/${id}`)
     .then((response) => {
       console.log(response);
@@ -203,8 +207,9 @@ React.useEffect(() => {
                     color: "black",
                     borderColor: "#878787",
                     marginBottom: "30px",
-                    width: "150px",
+                    width: "120px",
                     height: "40px",
+                    fontSize:"13px",
                   }}
                   variant="outlined"
                 >
@@ -216,11 +221,11 @@ React.useEffect(() => {
                   style={{
                     backgroundColor: "#333333",
                     marginBottom: "30px",
-                    width: "150px",
+                    width: "100px",
                     height: "40px",
                   }}
                   variant="contained"
-                  onClick={addToWishlist}
+                  onClick={()=>addToWishlist(props.book.book._id)}
                 >
                   Wishlist
                 </Button>
@@ -233,7 +238,7 @@ React.useEffect(() => {
             <div className="bookNameText">
               <h2 >{props.book.book.bookName}</h2>
             </div>
-            <div style={{ color: "gray" ,paddingRight:"450px", fontSize:"20px",paddingBottom:"15px" }}>by {props.book.book.author}</div>
+            <div style={{ color: "gray" ,paddingRight:"450px", fontSize:"17px",paddingBottom:"15px" }}>by {props.book.book.author}</div>
             <div>
               <span
                 style={{
@@ -293,4 +298,4 @@ React.useEffect(() => {
     )
 }
 
-export default Book
+export default connect()(Book)

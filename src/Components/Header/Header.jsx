@@ -9,12 +9,13 @@ import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import ShopOutlinedIcon from '@mui/icons-material/ShopOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import { connect } from 'react-redux';
 import { useHistory } from "react-router-dom";
 
 
 
 
-function Header() {
+function Header(props) {
 
   const [anchorEl, setAnchorEl] = React.useState(null)
 
@@ -25,14 +26,22 @@ function Header() {
 		setAnchorEl(anchorEl ? null : event.currentTarget);
 	};
 
+  const openHome = () => {
+    history.push('/HomePage')
+  };
+
+  const openWishlist = () => {
+    history.push('/HomePage/Book/Wishlist')
+  };
   const openCartItem = () => {
+    props.cartItems();
     history.push('/HomePage/Book/Cart')
   };
 
     return (
         <div className="main-Header-Container">
         <div className="logo-container">
-          <div className="logo">
+          <div className="logo" onClick={openHome}>
             <img src={education} />
           </div>
           <div className="logo-Text">Bookstore</div>
@@ -61,7 +70,7 @@ function Header() {
 									<div className='popper-content'>
 										<ShopOutlinedIcon  /> My Order
 									</div>
-									<div className='popper-content' >
+									<div className='popper-content' onClick={openWishlist}>
 										<FavoriteBorderOutlinedIcon  /> My Wishlist
 									</div>
 									<div className='popper-btn-container'>
@@ -84,5 +93,10 @@ function Header() {
       </div>
     )
 }
+const mapStateToProps = (state) => {
+	return {
+		cartItems: state.cartItemReducer.cartItems,
+	};
+};
 
-export default Header
+export default connect(mapStateToProps)(Header);

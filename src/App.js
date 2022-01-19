@@ -5,15 +5,15 @@ import HomePage from './MainPage/HomePage/HomePage';
 import Orderplaced from './MainPage/Orderplaced/Orderplaced';
 import Router from './Router/Router';
 import { Provider } from 'react-redux';
-import store from './Redux/Store';
 import Wishlist from './Components/Wishlist/Wishlist';
+import store from './Redux/Store';
 
 function App() {
   return (
     <div className="App">
-      {/* <Provider store={store}> */}
+      <Provider store={store}>
      <Router/>
-     {/* </Provider> */}
+     </Provider>
      {/* <Wishlist/> */}
     </div>
   );

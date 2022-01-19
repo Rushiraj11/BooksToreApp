@@ -7,14 +7,10 @@ const userService = new UserService();
 
 
 function Wishlist() {
-    // const history = React.useHistory();
 	const [wishList, setWishList] = React.useState([]);
 	const [watchState, setWatchState] = React.useState(false);
 
-	// Navigate to home
-	const handleClick = () => {
-		// history.push('/HomePage');
-	};
+	
 
 
 	const wishListItems = () => {
@@ -47,20 +43,19 @@ function Wishlist() {
            <Header />
 			<div className='wish-list-main-container'>
 				<div className='wish-list-inner-container'>
-					<div className='my-cart-header'>
+					<div className='my-cart-header' style={{paddingRight:"490px"}}>
 						<span
 							style={{
 								color: '#9D9D9D',
 								marginRight: '3px',
 								cursor: 'pointer',
 							}}
-							onClick={handleClick}
 						>
 							Home /
 						</span>
 						<span>My WishList</span>
 					</div>
-					<div className='wish-list-heading'>
+					<div className='wish-list-heading' style={{marginTop:15}}>
 						My WishList ( {wishList.length} )
 					</div>
 					<div className='wish-list-display-all'>

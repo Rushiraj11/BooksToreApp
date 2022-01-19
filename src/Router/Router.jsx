@@ -5,6 +5,7 @@ import HomePage from "../MainPage/HomePage/HomePage";
 import MainPage from "../MainPage/MainPage";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Orderplaced from "../MainPage/Orderplaced/Orderplaced";
+import Wishlist from "../Components/Wishlist/Wishlist";
 
 function Router() {
   return (
@@ -15,6 +16,7 @@ function Router() {
           <Route exact path="/HomePage" component={HomePage} />
           <Route exact path="/HomePage/Book" component={Book} />
           <Route exact path="/HomePage/Book/Cart" component={CartItem} />
+          <Route exact path="/HomePage/Book/Wishlist" component={Wishlist} />
           <Route exact path="/HomePage/Book/Cart/Orderplaced" component={Orderplaced} />
         </Switch>
       </BrowserRouter>

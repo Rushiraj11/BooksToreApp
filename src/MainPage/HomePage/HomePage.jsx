@@ -2,8 +2,11 @@ import React from "react";
 import Bookcard from "../../Components/BookCards/Bookcard";
 import Header from "../../Components/Header/Header";
 import "./HomePage.css";
+import { fetchBooks } from "../../Redux/Actions";
+import { connect } from 'react-redux';
 
-function HomePage() {
+function HomePage(dispatch) {
+// dispatch(fetchBooks())
   return (
     <div>
       <Header />
@@ -18,4 +21,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default connect()(HomePage);

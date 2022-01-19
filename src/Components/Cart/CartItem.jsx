@@ -10,10 +10,12 @@ import Header from "../Header/Header";
 import "./CartItem.css";
 import UserService from "../../Service/UserService";
 import CustomerDetails from "../../MainPage/CustomerDetails/CustomerDetails";
+import { connect } from 'react-redux';
+import { setCartItem } from '../../Redux/Actions';
 import { useHistory } from "react-router-dom";
 const userService = new UserService();
 
-function CartItem() {
+function CartItem(props) {
   const [cartItems, setCartItems] = React.useState([]);
   const [openAddress, setOpenAddress] = React.useState(false);
   const [openOrderSummery, setOpenOrderSummery] = React.useState(false);
@@ -79,6 +81,7 @@ function CartItem() {
       .then((response) => {
         console.log(response.data.message);
         getAllCartItems();
+        props.dispatch(setCartItem(0));
       })
       .catch((err) => {
         console.warn(err);
@@ -134,7 +137,7 @@ function CartItem() {
 
       <div className="myCartContainer">
         <div className="textAndLocationContain">
-          <h3>My cart(1)</h3>
+          <h3>My cart({cartItems.length})</h3>
           <select className="selectLocationFeild">
             <option value="location">Use current location</option>
           </select>
@@ -201,10 +204,10 @@ function CartItem() {
 
       <div className="OrderDetailContainer2">
         {!openOrderSummery ? (
-          <h4 className="txt">Order Summery</h4>
+          <h4 className="txt">Order Summary</h4>
         ) : (
           <div className="orderSummeryContainer">
-            <p className="txt">Order Summery</p>
+            <p className="txt">Order Summary ({cartItems.length})</p>
             {cartItems.map((product, index) => (
               <div className="bookImgAddDetails" key={index}>
                 <div className="bookImgDiv"></div>
@@ -234,4 +237,4 @@ function CartItem() {
   );
 }
 
-export default CartItem;
+export default connect()(CartItem);
