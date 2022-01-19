@@ -5,7 +5,7 @@ import './Book.css';
 import UserService from "../../Service/UserService";
 import { useHistory } from "react-router-dom";
 import { connect } from 'react-redux';
-
+import { setCartItem } from '../../Redux/Actions';
 
 
 const userService = new UserService();
@@ -36,6 +36,7 @@ const bookId = (id) =>{
 }
 
 const showCartItems = () => {
+  props.dispatch(setCartItem());
   userService.GetCartItems("https://bookstore.incubation.bridgelabz.com/bookstore_user/get_cart_items")
     .then((res) => {
       console.log(res);

@@ -21,18 +21,7 @@ export const fetchBooksError = () => {
 	};
 };
 
-export const incrementCartItem = (error) => {
-	return {
-		type: 'INCREMENT_ITEM',
-		payload: error,
-	};
-};
 
-export const decrementCartItem = () => {
-	return {
-		type: 'DECREMENT_ITEM',
-	};
-};
 
 export const setCartItem = (cartItems) => {
 	return {

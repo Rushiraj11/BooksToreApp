@@ -10,6 +10,7 @@ import ClickAwayListener from '@mui/material/ClickAwayListener';
 import ShopOutlinedIcon from '@mui/icons-material/ShopOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import { connect } from 'react-redux';
+import { setCartItem } from '../../Redux/Actions';
 import { useHistory } from "react-router-dom";
 
 
@@ -34,7 +35,7 @@ function Header(props) {
     history.push('/HomePage/Book/Wishlist')
   };
   const openCartItem = () => {
-    props.cartItems();
+    props.dispatch(setCartItem());
     history.push('/HomePage/Book/Cart')
   };
 

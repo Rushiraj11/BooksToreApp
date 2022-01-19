@@ -85,10 +85,6 @@ const mapStateToProps = (state) => {
 	};
 };
 
-// const mapDispatchToProps = (dispatch) => {
-// 	return {
-// 		fetchBooks: () => dispatch(fetchBooks()),
-// 	};
-// };
+
 
 export default connect(mapStateToProps)(Bookcard)
